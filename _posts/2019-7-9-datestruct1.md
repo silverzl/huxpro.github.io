@@ -6,7 +6,7 @@ date:       2019-07-8 10:00:00
 author:     "zl"
 header-img: "img/post-bgos-2019.jpg"
 tags:
-    - 数据结构
+    - 期末复习总结系列
 ---
 
 ## 第一章：

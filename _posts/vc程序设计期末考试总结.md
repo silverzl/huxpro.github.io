@@ -1,0 +1,128 @@
+---
+layout:     post
+title:      "vc程序设计语言期末总结"
+subtitle:   "期末复习总结系列"
+date:       2019-12-18 10:00:00
+author:     "zl"
+header-img: "img/post-bg-2019.jpg"
+tags:
+    - 期末复习总结系列
+---
+
+###  应用程序向导生成的头文件  
+  1. 对话框类CAboutDlg
+  2. 框架窗口类头文件。CMainFrame类是MFC的CFrameWnd类的派生类，主要负责创建标题栏，菜单栏，工具栏和状态栏。   
+  3. 文档类头文件。CSDI_ExampleDoc类是MFC的的CDocument类的派生类，他主要负责应用程序数据的保存和装载，实现文档的序列化功能。    
+  4. 视图类头文件。SDI_ExampleView.h，该文件用于定义视图类CSDI_ExampleView。视图类主要负责显示文档数据，也为文档对象和用户之间提供了用以交互的可视接口。
+  5. 应用类头文件。应用类封装了Windows应用的初始化，运行以及终止的全过程。对于每一个基于框架的应用，它必须有一个且只能有一个派生于CwinApp类的对象。
+  6. 资源类头文件
+  7. Stdafx.h
+
+### MFC中的异常开销问题
+  
+  在MFC应用程序中，当抛出C++异常时，函数调用链接讲从此回溯搜索，寻找可以处理抛出这类异常的处理器。如果没找到，则进程结束。如果找到，调用栈将被释放，所有的自动变量也将释放，然后栈讲被整理为异常处理器的上下文相关设备。
+
+### 对话框数据交换与验证
+  
+  对话框数据交换(DDX)用于初始化对话框的控件和获取用户输入的数据，对话框数据验证(DDV)可以验证在对话框中输入大的数据。
+
+### 解决MFC生成的exe程序不能再其他计算机上运行的问题
+  
+  MFC开发应用中，有时会遇到MFC生成的exe程序不能在其他计算机上运行的问题，这主要是MFC库链接方式的问题，MFC有动态链接和静态链接两种方式。
+
+  1. 静态链接，就是把需要的MFC库函数放进你的exe之中，这样在MFC库函数文件不在的情况下，你的exe仍然可以使用到这个库函数。
+  2. 动态链接。与静态链接相反，库函数不在exe之中，这样运行时就必须加载相应的MFC dill，否则无法正常运行。
+  3. 所以，如果运行环境没有对应的库文件存在(如没有安装vC++),为了仍然能够运行，就要同时copy相应的MFC DLL，或者采用静态链接的方式。在VC++6.0中操作步骤如下。
+      1. 选择Project->Setting 命令
+      2. 在弹出的对话框中选择General选项卡，在Microsoft Foundation Classes处选择Use MFC in a Static Library。
+
+
+###  标准控件。
+  Windows提供的控件有俩个类，分别是标准控件和公用控件。
+  1. 标准控件。包括静态控件，剪辑框，按钮，列表框，组合框和滚动条等。利用标准控件可以满足大部分用户界面的设计要求，如编辑框用于输入用户数据，复选框按钮用于选择不同的选项，列表框用于选择要输入的信息。
+  2. 公用控件。如滑块，进度条，列表视控件，树视图控件和标签控件，以实现应用程序用户界面风格的多样性。
+   
+   Windows系统标准控件的创建分为静态控件和动态控件。    
+   静态控件指在对话框模板中创建控件，并设置控件属性，在调用对话框时，窗口系统会自动按预先的设置为对话框创建控件，而且程序员可以使用ClassWizard为该控件在对话框内创建一个控件类对象。   
+   动态创建他指在程序运行中根据需要，定义一个控件类对象，再通过窗口函数CreateWindow()或者CreateWindwEx创建控件，调用函数ShowWindow()显示控件，正如操作一个子窗口一样。
+    
+
+###  CFileDialog类辅助成员函数。
+  
+  - GetPathName：返回一个包含全路径文件名的CString对象。
+  - GetFileName：返回一个包含文件名(不含路径)的CString对象。
+  - GetFileExt：返回一个只含文件扩展名的CString对象。
+  - GetFileTitle:返回一个只含文件名(不含扩展名)的CString对象
+
+
+### 对话框分类
+
+  1. 模态对话框：当一个模态对话框打开之后，再其关闭之前，用户不能转向其他用户界面对象，只能与该对话框进行交互。
+  2. 非模态对话框：非模态对话框恰恰相反，当用户打开一个非模态对话框，对话框停留在屏幕上，仍然允许用户于其他对象进行交互。
+
+### 如何绘制按钮
+
+想要自绘标准按钮控件，首先需要使控件具有自绘能力，即要为按钮添加BS_OWNERDRAW属性，在此需要重载虚函数PreSubclassWindow，并在该函数中添加ModifyStyle(0,BS_OWNERDRAW);第二步就要重载函数DrawItem.
+
+### 显示或隐藏控件
+
+假如有这么一个应用：想动态地使一串按钮从左到右显示，以达到流水的效果。
+```
+    for(int i=14;i>1;i--){
+        GetDlgItem(array[i])->ShowWindow(true);
+                    MessageBox("fdsafds");
+        GetDlgItem(array[i])->ShowWindow(false);
+    }
+
+```
+其中，array时ID的数组，上述大妈能实现，而下面的代码不能。
+```
+    for(int i=14;i>1;i--){
+        GetDlgItem(array[i])->ShowWindow(true);
+                    Sleep(1000);
+        GetDlgItem(array[i])->ShowWindow(false);
+    }
+```
+
+因为当执行`GetDlgItem(array[i])->ShowWindow(true);`时，他会调用onpaint函数去进行一次窗口重载，但它并非立即进行重绘，有可能先处理这个循环体，处理完后再进行重绘，这样给我们的觉得是，控件并没有什么变化。
+
+解决方法是调用UpdateWindow()函数立即经行重绘，也就是把前面的程序改成如下。
+```
+    for(int i=14;i>1;i--){
+        GetDlgItem(array[i])->ShowWindow(true);
+        UpdateWindow();
+                    Sleep(1000);
+        GetDlgItem(array[i])->ShowWindow(false);
+    }
+```
+
+
+### 文档和视图之间的关系
+
+在MFC的应用框架中，文档与视图的关系主要体现在文档类对象和视图类对象的相互作用和相互访问上。
+
+文档类 通过Cdcoument::UpdataAllViews() 到视图类
+视图类 通过Cvicw::GetDocument()到文档类
+
+Cview::OnInitialUpdata(),Cview::Invalidate(),Cview::InvalidateRect() 视图类。
+
+### 工具栏和状态栏设计
+
+在MFC中，工具栏和状态来由类CTooBar和类CStatusBar来描述的，他们都是类CControlBar的派生类。
+
+### 文档和视图的关系
+可细分为3类
+1. 文档对应多个相同的视图对象。
+2. 文档对应多个相同类的视图对象。
+3. 文档对应多个不同类的是同对象。
+
+### 修饰符
+
+修饰符就是对类的成员限定符，主要有const和mutable两种，const表示不希望类的对象或者类的属性在程序运行过程中失效，mutable表示总是可以修改。把一个类声明为const时，它的所有成员属性都将自动成为const型。但有时又需要修改某个const对象中的属性，这时就需要用到mutabl修饰符。
+
+  
+
+
+
+
+    
