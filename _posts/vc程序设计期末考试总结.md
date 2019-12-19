@@ -1,12 +1,12 @@
 ---
 layout:     post
-title:      "vc程序设计语言期末总结"
-subtitle:   "期末复习总结系列"
-date:       2019-12-18 10:00:00
+title:      "test"
+subtitle:   "from zhihu"
+date:       2019-12-2 10:00:00
 author:     "zl"
 header-img: "img/post-bg-2019.jpg"
 tags:
-    - 期末复习总结系列
+    - Life
 ---
 
 ###  应用程序向导生成的头文件  
