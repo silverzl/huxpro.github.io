@@ -6,7 +6,7 @@ date:       2019-09-23 10:00:00
 author:     "zl"
 header-img: "img/post-bg-2019.jpg"
 tags:
-    - Life
+    - 算法分析
 ---
 
 ## 1 循环设计要点 例题2-1
